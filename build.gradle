@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = "16"
 
 configurations {
     compileOnly {
@@ -19,6 +19,8 @@ repositories {
 }
 
 dependencies {
+    testImplementation "org.mockito:mockito-core:3.+"
+    implementation 'org.modelmapper:modelmapper:3.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
@@ -29,3 +31,4 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+targetCompatibility = JavaVersion.VERSION_16
