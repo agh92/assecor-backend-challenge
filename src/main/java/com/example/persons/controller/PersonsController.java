@@ -2,27 +2,37 @@ package com.example.persons.controller;
 
 import com.example.persons.dto.PersonDto;
 import com.example.persons.model.Color;
-import org.springframework.http.HttpStatus;
+import com.example.persons.model.Person;
+import com.example.persons.service.PersonsService;
+import com.example.persons.utils.PersonModelMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/persons")
 public class PersonsController {
 
+    private final PersonsService personsService;
+
     @GetMapping
-    public PersonDto[] getAllPersons() {
-        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Not implemented");
+    public List<PersonDto> getAllPersons() {
+        List<Person> allPersons = personsService.getAllPersons();
+        return allPersons.stream().map(PersonModelMapper::map).toList();
     }
 
     @GetMapping("/{personID}")
     public PersonDto getPerson(@PathVariable Integer personID) {
-        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Not implemented");
+        Person person = personsService.getPerson(personID);
+        return PersonModelMapper.map(person);
     }
 
     @GetMapping("/color/{color}")
-    public PersonDto[] getPersonsWithSameFavoriteColor(@PathVariable Color color) {
-        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Not implemented");
+    public List<PersonDto> getMatchingPersons(@PathVariable Color color) {
+        List<Person> matchingPersons = personsService.getMatchingPersons(color);
+        return matchingPersons.stream().map(PersonModelMapper::map).toList();
     }
 
 
