@@ -44,7 +44,7 @@ public class PersonsControllerTest {
     @Test
     void getAllPersonsReturnsAllPersons() throws Exception {
         Integer expectedNumberOfPersons = 5;
-        given(personsService.getAllPersons()).willReturn(buildPerson(expectedNumberOfPersons));
+        given(personsService.findAll()).willReturn(buildPerson(expectedNumberOfPersons));
 
         MvcResult result = mockMvc.perform(get("/persons").accept(MediaType.APPLICATION_JSON)).andReturn();
 
@@ -57,7 +57,7 @@ public class PersonsControllerTest {
 
     @Test
     void getPersonResponseIsOk() throws Exception {
-        given(personsService.getPerson(anyInt())).willReturn(buildPerson());
+        given(personsService.findById(anyLong())).willReturn(buildPerson());
 
         mockMvc.perform(get("/persons/1").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
@@ -66,7 +66,7 @@ public class PersonsControllerTest {
     void getPersonReturnsTheCorrectPerson() throws Exception {
         Person person = buildPerson();
         Long expectedId = person.getId();
-        given(personsService.getPerson(anyInt())).willReturn(person);
+        given(personsService.findById(anyLong())).willReturn(person);
 
         MvcResult result = mockMvc.perform(get("/persons/" + expectedId).accept(MediaType.APPLICATION_JSON)).andReturn();
 
@@ -78,7 +78,7 @@ public class PersonsControllerTest {
 
     @Test
     void getPersonReturnsNotFound() throws Exception {
-        given(personsService.getPerson(any())).willThrow(new PersonNotFoundException());
+        given(personsService.findById(any())).willThrow(new PersonNotFoundException(anyLong()));
 
         mockMvc.perform(get("/persons/999999").accept(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
     }
@@ -90,7 +90,7 @@ public class PersonsControllerTest {
 
     @Test
     void getPersonsWithMatchingColorResponseIsOk() throws Exception {
-        given(personsService.getMatchingPersons(any())).willReturn(buildPerson(2));
+        given(personsService.findByColor(any())).willReturn(buildPerson(2));
 
         Color color = Color.GREEN;
         mockMvc.perform(get("/persons/color/" + color).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
@@ -99,7 +99,7 @@ public class PersonsControllerTest {
     @Test
     void getMatchingPersonsReturnsCorrectNumberOfPersons() throws Exception {
         Integer expectedNumberOfPersons = 5;
-        given(personsService.getMatchingPersons(any())).willReturn(buildPerson(expectedNumberOfPersons));
+        given(personsService.findByColor(any())).willReturn(buildPerson(expectedNumberOfPersons));
 
         Color color = Color.GREEN;
         MvcResult result = mockMvc.perform(get("/persons/color/" + color).accept(MediaType.APPLICATION_JSON)).andReturn();

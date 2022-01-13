@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface PersonsService {
 
-    List<Person> getAllPersons();
+    List<Person> findAll();
 
-    Person getPerson(Integer id) throws PersonNotFoundException;
+    Person findById(Long id) throws PersonNotFoundException;
 
-    List<Person> getMatchingPersons(Color color);
+    List<Person> findByColor(Color color);
 }

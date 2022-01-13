@@ -19,19 +19,19 @@ public class PersonsController {
 
     @GetMapping
     public List<PersonDto> getAllPersons() {
-        List<Person> allPersons = personsService.getAllPersons();
+        List<Person> allPersons = personsService.findAll();
         return allPersons.stream().map(PersonModelMapper::map).toList();
     }
 
     @GetMapping("/{personID}")
-    public PersonDto getPerson(@PathVariable Integer personID) {
-        Person person = personsService.getPerson(personID);
+    public PersonDto getPerson(@PathVariable Long personID) {
+        Person person = personsService.findById(personID);
         return PersonModelMapper.map(person);
     }
 
     @GetMapping("/color/{color}")
     public List<PersonDto> getMatchingPersons(@PathVariable Color color) {
-        List<Person> matchingPersons = personsService.getMatchingPersons(color);
+        List<Person> matchingPersons = personsService.findByColor(color);
         return matchingPersons.stream().map(PersonModelMapper::map).toList();
     }
 
