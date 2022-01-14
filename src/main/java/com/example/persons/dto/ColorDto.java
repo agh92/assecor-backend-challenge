@@ -1,5 +1,9 @@
 package com.example.persons.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
 public enum ColorDto {
     BLUE("blue"),
     GREEN("green"),
@@ -9,6 +13,6 @@ public enum ColorDto {
     TURQUOISE("turquoise"),
     WHITE("white");
 
-    ColorDto(String value) {
-    }
+    @Getter
+    private final String value;
 }

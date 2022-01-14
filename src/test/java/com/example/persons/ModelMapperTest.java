@@ -1,16 +1,25 @@
 package com.example.persons;
 
 
+import com.example.persons.configuration.BeansConfiguration;
 import com.example.persons.dto.ColorDto;
 import com.example.persons.dto.PersonDto;
 import com.example.persons.model.Color;
 import com.example.persons.model.Person;
-import com.example.persons.utils.PersonModelMapper;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PersonModelMapperTest {
+@SpringBootTest
+@ContextConfiguration(classes = {BeansConfiguration.class})
+public class ModelMapperTest {
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Test
     void mapsPersonToPersonDto() {
@@ -26,7 +35,7 @@ public class PersonModelMapperTest {
                 .color(Color.BLUE)
                 .build();
 
-        PersonDto personDto = PersonModelMapper.map(person);
+        PersonDto personDto = modelMapper.map(person, PersonDto.class);
 
         assertEquals(person.getId(), personDto.getId());
         assertEquals(person.getName(), personDto.getName());
@@ -50,7 +59,7 @@ public class PersonModelMapperTest {
                 .color(ColorDto.BLUE)
                 .build();
 
-        Person person = PersonModelMapper.map(personDto);
+        Person person = modelMapper.map(personDto, Person.class);
 
         assertEquals(personDto.getId(), person.getId());
         assertEquals(personDto.getName(), person.getName());

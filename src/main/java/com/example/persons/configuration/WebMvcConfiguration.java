@@ -1,0 +1,9 @@
+package com.example.persons.configuration;
+
+import com.example.persons.converter.StringToColorDtoConverter;
+import org.springframework.format.FormatterRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+public class WebMvcConfiguration implements WebMvcConfigurer {
+
+}

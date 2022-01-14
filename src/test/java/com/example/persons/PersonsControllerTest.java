@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.persons.controller.PersonsController;
+import com.example.persons.dto.ColorDto;
 import com.example.persons.dto.PersonDto;
 import com.example.persons.exception.PersonNotFoundException;
 import com.example.persons.model.Color;
@@ -12,29 +13,48 @@ import com.example.persons.model.Person;
 import com.example.persons.service.PersonsService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.BDDMockito.*;
 
-@WebMvcTest(PersonsController.class)
+@SpringBootTest
+@ContextConfiguration(classes = {PersonsController.class})
+@Import(PersonsControllerTest.Config.class)
 public class PersonsControllerTest {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    @MockBean
+    @Autowired
     PersonsService personsService;
 
     @Autowired
+    ModelMapper modelMapper;
+
+    @Autowired
+    PersonsController personsController;
+
     MockMvc mockMvc;
+
+    @BeforeEach
+    public void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(personsController).build();
+    }
 
     @Test
     void getAllPersonsResponseIsOk() throws Exception {
@@ -89,10 +109,10 @@ public class PersonsControllerTest {
     }
 
     @Test
-    void getPersonsWithMatchingColorResponseIsOk() throws Exception {
+    void getPersonsByColorResponseIsOk() throws Exception {
         given(personsService.findByColor(any())).willReturn(buildPerson(2));
 
-        Color color = Color.GREEN;
+        ColorDto color = ColorDto.GREEN;
         mockMvc.perform(get("/persons/color/" + color).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
 
@@ -101,7 +121,7 @@ public class PersonsControllerTest {
         Integer expectedNumberOfPersons = 5;
         given(personsService.findByColor(any())).willReturn(buildPerson(expectedNumberOfPersons));
 
-        Color color = Color.GREEN;
+        ColorDto color = ColorDto.GREEN;
         MvcResult result = mockMvc.perform(get("/persons/color/" + color).accept(MediaType.APPLICATION_JSON)).andReturn();
 
         String contentAsString = result.getResponse().getContentAsString();
@@ -113,12 +133,12 @@ public class PersonsControllerTest {
 
     @Test
     void getMatchingPersonsReturnsBadRequestForInvalidColor() throws Exception {
-        mockMvc.perform(get("/persons/color/999").accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+        mockMvc.perform(get("/persons/color/foo").accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
     }
 
     @Test
     void getMatchingPersonsReturnsBadRequestForWrongParamType() throws Exception {
-        mockMvc.perform(get("/persons/color/foo").accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+        mockMvc.perform(get("/persons/color/999").accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
     }
 
     static Person buildPerson() {
@@ -130,11 +150,39 @@ public class PersonsControllerTest {
                 .build();
     }
 
+    static PersonDto buildPersonDto() {
+        return PersonDto.builder().id(1L)
+                .name("john")
+                .lastName("doe")
+                .zipCode(12345)
+                .city(" somewhere")
+                .color(ColorDto.BLUE)
+                .build();
+    }
+
     static List<Person> buildPerson(Integer number) {
         List<Person> persons = new ArrayList<>(number);
         for (int i = 0; i < number; i++) {
             persons.add(buildPerson());
         }
         return persons;
+    }
+
+    @TestConfiguration
+    protected static class Config {
+        @Bean
+        PersonsService personsService() {
+            return Mockito.mock(PersonsService.class);
+        }
+
+        @Bean
+        ModelMapper modelMapper() {
+            ModelMapper mock = Mockito.mock(ModelMapper.class);
+
+            given(mock.map(any(Person.class), any())).willReturn(buildPersonDto());
+            given(mock.map(any(ColorDto.class), any())).willReturn(Color.RED);
+
+            return mock;
+        }
     }
 }
