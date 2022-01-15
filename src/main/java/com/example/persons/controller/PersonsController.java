@@ -1,7 +1,5 @@
 package com.example.persons.controller;
 
-import com.example.persons.converter.StringToColorDtoConverter;
-import com.example.persons.dto.ColorDto;
 import com.example.persons.dto.PersonDto;
 import com.example.persons.model.Color;
 import com.example.persons.model.Person;
@@ -9,7 +7,6 @@ import com.example.persons.service.PersonsService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,9 +38,8 @@ public class PersonsController {
         return modelMapper.map(person, PersonDto.class);
     }
 
-    @GetMapping("/color/{coloDto}")
-    public List<PersonDto> getPersonsByColor(@PathVariable ColorDto coloDto) {
-        Color color = modelMapper.map(coloDto, Color.class);
+    @GetMapping("/color/{color}")
+    public List<PersonDto> getPersonsByColor(@PathVariable Color color) {
         List<Person> matchingPersons = personsService.findByColor(color);
         return matchingPersons.stream().map(person -> modelMapper.map(person, PersonDto.class)).toList();
     }

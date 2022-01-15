@@ -13,5 +13,5 @@ public class PersonDto {
     private String lastName;
     private Integer zipCode;
     private String city;
-    private ColorDto color;
+    private String color;
 }

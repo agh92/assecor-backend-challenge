@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.persons.controller.PersonsController;
-import com.example.persons.dto.ColorDto;
 import com.example.persons.dto.PersonDto;
 import com.example.persons.exception.PersonNotFoundException;
 import com.example.persons.model.Color;
@@ -112,7 +111,7 @@ public class PersonsControllerTest {
     void getPersonsByColorResponseIsOk() throws Exception {
         given(personsService.findByColor(any())).willReturn(buildPerson(2));
 
-        ColorDto color = ColorDto.GREEN;
+        Color color = Color.GREEN;
         mockMvc.perform(get("/persons/color/" + color).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
 
@@ -121,7 +120,7 @@ public class PersonsControllerTest {
         Integer expectedNumberOfPersons = 5;
         given(personsService.findByColor(any())).willReturn(buildPerson(expectedNumberOfPersons));
 
-        ColorDto color = ColorDto.GREEN;
+        Color color = Color.GREEN;
         MvcResult result = mockMvc.perform(get("/persons/color/" + color).accept(MediaType.APPLICATION_JSON)).andReturn();
 
         String contentAsString = result.getResponse().getContentAsString();
@@ -167,7 +166,7 @@ public class PersonsControllerTest {
                 .lastName("doe")
                 .zipCode(12345)
                 .city(" somewhere")
-                .color(ColorDto.BLUE)
+                .color("blue")
                 .build();
     }
 
@@ -191,7 +190,6 @@ public class PersonsControllerTest {
             ModelMapper mock = Mockito.mock(ModelMapper.class);
 
             given(mock.map(any(Person.class), any())).willReturn(buildPersonDto());
-            given(mock.map(any(ColorDto.class), any())).willReturn(Color.RED);
 
             return mock;
         }

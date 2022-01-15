@@ -2,7 +2,6 @@ package com.example.persons;
 
 
 import com.example.persons.configuration.BeansConfiguration;
-import com.example.persons.dto.ColorDto;
 import com.example.persons.dto.PersonDto;
 import com.example.persons.model.Color;
 import com.example.persons.model.Person;
@@ -23,7 +22,7 @@ public class ModelMapperTest {
 
     @Test
     void mapsPersonToPersonDto() {
-        ColorDto expectedColor = ColorDto.BLUE;
+        String expectedColor = "blue";
         Integer expectedZipCode = 12345;
         String expectedCity = "somewhere";
 
@@ -56,7 +55,7 @@ public class ModelMapperTest {
                 .lastName("doe")
                 .zipCode(12345)
                 .city("somewhere")
-                .color(ColorDto.BLUE)
+                .color("blue")
                 .build();
 
         Person person = modelMapper.map(personDto, Person.class);
