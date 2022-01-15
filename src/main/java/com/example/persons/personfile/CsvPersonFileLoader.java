@@ -21,8 +21,7 @@ public class CsvPersonFileLoader implements PersonFileLoader {
 
     @Override
     public InputStream loadFile() throws IOException {
-        String resourceLocation = String.format("file:%s", filePath);
-        Resource csvFileResource = resourceLoader.getResource(resourceLocation);
+        Resource csvFileResource = resourceLoader.getResource(filePath);
         return csvFileResource.getInputStream();
     }
 }
