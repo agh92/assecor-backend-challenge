@@ -142,13 +142,24 @@ public class PersonsControllerTest {
 
     @Test
     void createPersonRespondsCreatedStatus() throws Exception {
-        PersonDto personDto = buildPersonDto();
+        PersonDto personDto = buildPersonDtoWithoutId();
         String jsonPerson = MAPPER.writeValueAsString(personDto);
 
         mockMvc.perform(post("/persons")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonPerson)
         ).andExpect(status().isCreated());
+    }
+
+    @Test
+    void createPersonRespondsBadRequestStatusIfIdIsPresent() throws Exception {
+        PersonDto personDto = buildPersonDto();
+        String jsonPerson = MAPPER.writeValueAsString(personDto);
+
+        mockMvc.perform(post("/persons")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonPerson)
+        ).andExpect(status().isBadRequest());
     }
 
     static Person buildPerson() {
@@ -161,13 +172,20 @@ public class PersonsControllerTest {
     }
 
     static PersonDto buildPersonDto() {
-        return PersonDto.builder().id(1L)
+        return getJohnDoeBuilder().id(1L).build();
+    }
+
+    static PersonDto buildPersonDtoWithoutId() {
+        return getJohnDoeBuilder().build();
+    }
+
+    static PersonDto.PersonDtoBuilder getJohnDoeBuilder() {
+        return PersonDto.builder()
                 .name("john")
                 .lastName("doe")
                 .zipCode(12345)
                 .city(" somewhere")
-                .color("blue")
-                .build();
+                .color("blue");
     }
 
     static List<Person> buildPerson(Integer number) {

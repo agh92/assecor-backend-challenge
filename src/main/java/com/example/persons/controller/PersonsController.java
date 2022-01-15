@@ -1,6 +1,7 @@
 package com.example.persons.controller;
 
 import com.example.persons.dto.PersonDto;
+import com.example.persons.exception.PropertyNotAllowed;
 import com.example.persons.model.Color;
 import com.example.persons.model.Person;
 import com.example.persons.service.PersonsService;
@@ -9,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -27,7 +29,10 @@ public class PersonsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createPerson(@RequestBody PersonDto personDto) {
+    public void createPerson(@RequestBody @Valid PersonDto personDto) {
+        if (personDto.getId() != null) {
+            throw new PropertyNotAllowed("id");
+        }
         Person person = modelMapper.map(personDto, Person.class);
         this.personsService.createPerson(person);
     }
