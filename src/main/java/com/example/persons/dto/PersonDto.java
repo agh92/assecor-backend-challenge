@@ -25,6 +25,6 @@ public class PersonDto {
     @NotBlank
     @Pattern(regexp = "[\\D][ \\-\\D]*")
     private String city;
-    @EnumValue(enumClass = Color.class)
+    @EnumValue(enumClass = Color.class, message = "Invalid color")
     private String color;
 }

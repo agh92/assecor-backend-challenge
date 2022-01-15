@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.persons.controller.PersonsController;
 import com.example.persons.dto.PersonDto;
-import com.example.persons.exception.PersonNotFoundException;
 import com.example.persons.model.Color;
 import com.example.persons.model.Person;
 import com.example.persons.service.PersonsService;
@@ -29,6 +28,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.BDDMockito.*;
 
@@ -76,7 +76,7 @@ public class PersonsControllerTest {
 
     @Test
     void getPersonResponseIsOk() throws Exception {
-        given(personsService.findById(anyLong())).willReturn(buildPerson());
+        given(personsService.findById(anyLong())).willReturn(Optional.of(buildPerson()));
 
         mockMvc.perform(get("/persons/1").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
@@ -85,7 +85,7 @@ public class PersonsControllerTest {
     void getPersonReturnsTheCorrectPerson() throws Exception {
         Person person = buildPerson();
         Long expectedId = person.getId();
-        given(personsService.findById(anyLong())).willReturn(person);
+        given(personsService.findById(anyLong())).willReturn(Optional.of(person));
 
         MvcResult result = mockMvc.perform(get("/persons/" + expectedId).accept(MediaType.APPLICATION_JSON)).andReturn();
 
@@ -97,7 +97,7 @@ public class PersonsControllerTest {
 
     @Test
     void getPersonReturnsNotFound() throws Exception {
-        given(personsService.findById(any())).willThrow(new PersonNotFoundException(anyLong()));
+        given(personsService.findById(any())).willReturn(Optional.empty());
 
         mockMvc.perform(get("/persons/999999").accept(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
     }

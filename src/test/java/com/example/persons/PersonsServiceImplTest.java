@@ -1,6 +1,5 @@
 package com.example.persons;
 
-import com.example.persons.exception.PersonNotFoundException;
 import com.example.persons.model.Color;
 import com.example.persons.model.Person;
 import com.example.persons.personfile.PersonFileLoader;
@@ -19,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -50,20 +48,12 @@ public class PersonsServiceImplTest {
     }
 
     @Test
-    void getPersonThrowsPersonNotFoundException() {
-        Optional<Person> emptyOptionalPerson = Optional.empty();
-        given(repository.findById(any())).willReturn(emptyOptionalPerson);
-
-        assertThrows(PersonNotFoundException.class, () -> personsService.findById(1L));
-    }
-
-    @Test
     void getPersonReturnsTheCorrectPerson() {
         Person expectedPerson = buildPerson();
         Optional<Person> emptyOptionalPerson = Optional.of(expectedPerson);
         given(repository.findById(expectedPerson.getId())).willReturn(emptyOptionalPerson);
 
-        Person actualPerson = personsService.findById(expectedPerson.getId());
+        Person actualPerson = personsService.findById(expectedPerson.getId()).get();
 
         assertEquals(expectedPerson.getId(), actualPerson.getId());
     }

@@ -1,7 +1,6 @@
 package com.example.persons.controller;
 
 import com.example.persons.dto.PersonDto;
-import com.example.persons.exception.PropertyNotAllowed;
 import com.example.persons.model.Color;
 import com.example.persons.model.Person;
 import com.example.persons.service.PersonsService;
@@ -9,9 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,7 +32,7 @@ public class PersonsController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createPerson(@RequestBody @Valid PersonDto personDto) {
         if (personDto.getId() != null) {
-            throw new PropertyNotAllowed("id");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "id cannot be set by the client");
         }
         Person person = modelMapper.map(personDto, Person.class);
         this.personsService.createPerson(person);
@@ -39,8 +40,13 @@ public class PersonsController {
 
     @GetMapping("/{personID}")
     public PersonDto getPerson(@PathVariable Long personID) {
-        Person person = personsService.findById(personID);
-        return modelMapper.map(person, PersonDto.class);
+        Optional<Person> optionalPerson = personsService.findById(personID);
+
+        if (optionalPerson.isPresent()) {
+            return modelMapper.map(optionalPerson.get(), PersonDto.class);
+        }
+
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Person with id %d not found", personID));
     }
 
     @GetMapping("/color/{color}")
