@@ -141,6 +141,17 @@ public class PersonsControllerTest {
         mockMvc.perform(get("/persons/color/999").accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
     }
 
+    @Test
+    void createPersonRespondsCreatedStatus() throws Exception {
+        PersonDto personDto = buildPersonDto();
+        String jsonPerson = MAPPER.writeValueAsString(personDto);
+
+        mockMvc.perform(post("/persons")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonPerson)
+        ).andExpect(status().isCreated());
+    }
+
     static Person buildPerson() {
         return Person.builder().id(1L)
                 .name("john")

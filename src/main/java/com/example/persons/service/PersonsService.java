@@ -13,4 +13,6 @@ public interface PersonsService {
     Person findById(Long id) throws PersonNotFoundException;
 
     List<Person> findByColor(Color color);
+
+    void createPerson(Person person);
 }

@@ -44,4 +44,8 @@ public class PersonsServiceImpl implements PersonsService {
                 .filter(person -> person.getColor() == color)
                 .collect(Collectors.toList());
     }
+
+    public void createPerson(Person person) {
+        this.personRepository.save(person);
+    }
 }
