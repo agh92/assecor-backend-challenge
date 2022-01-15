@@ -1,7 +1,7 @@
 package com.example.persons.dto;
 
 import com.example.persons.model.Color;
-import com.example.persons.validator.EnumValue;
+import com.example.persons.validation.EnumValue;
 import lombok.*;
 
 import javax.validation.constraints.*;
