@@ -3,6 +3,8 @@ package com.example.persons;
 import com.example.persons.exception.PersonNotFoundException;
 import com.example.persons.model.Color;
 import com.example.persons.model.Person;
+import com.example.persons.personfile.PersonFileLoader;
+import com.example.persons.personfile.PersonParser;
 import com.example.persons.service.PersonsServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,11 +28,15 @@ public class PersonsServiceImplTest {
 
     @Mock
     CrudRepository<Person, Long> repository;
+    @Mock
+    PersonFileLoader personFileLoader;
+    @Mock
+    PersonParser personParser;
 
 
     @BeforeEach
     void setUpService() {
-        personsService = new PersonsServiceImpl(repository);
+        personsService = new PersonsServiceImpl(repository, personFileLoader, personParser);
     }
 
     @Test
