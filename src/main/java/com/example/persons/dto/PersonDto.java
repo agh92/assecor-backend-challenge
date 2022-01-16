@@ -1,7 +1,6 @@
 package com.example.persons.dto;
 
-import com.example.persons.model.Color;
-import com.example.persons.validation.EnumValue;
+import com.example.persons.validation.IsColor;
 import lombok.*;
 
 import javax.validation.constraints.*;
@@ -25,6 +24,6 @@ public class PersonDto {
     @NotBlank
     @Pattern(regexp = "[\\D][ \\-\\D]*")
     private String city;
-    @EnumValue(enumClass = Color.class, message = "Invalid color")
+    @IsColor(message = "invalid color")
     private String color;
 }

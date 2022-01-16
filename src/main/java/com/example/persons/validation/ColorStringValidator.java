@@ -1,16 +1,12 @@
 package com.example.persons.validation;
 
+import com.example.persons.model.Color;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.Arrays;
 
-public class ColorStringValidator implements ConstraintValidator<EnumValue, String> {
-
-    private Object[] enumValues;
-
-    @Override
-    public void initialize(final EnumValue annotation) {
-        enumValues = annotation.enumClass().getEnumConstants();
-    }
+public class ColorStringValidator implements ConstraintValidator<IsColor, String> {
 
     @Override
     public boolean isValid(final String value, final ConstraintValidatorContext context) {
@@ -23,12 +19,11 @@ public class ColorStringValidator implements ConstraintValidator<EnumValue, Stri
 
     private boolean validate(String value) {
         String upperCaseString = value.toUpperCase();
-        for (Object enumValue : enumValues) {
-            if (enumValue.toString().equals(upperCaseString)) {
-                return true;
-            }
-        }
-        return false;
+        Object[] enumValues = Color.class.getEnumConstants();
+
+        return Arrays
+                .stream(enumValues)
+                .anyMatch(enumValue -> enumValue.toString().equals(upperCaseString));
     }
 
 }
