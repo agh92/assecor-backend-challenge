@@ -20,11 +20,13 @@ import org.springframework.data.repository.CrudRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class PersonsServiceImplTest {
-  PersonsServiceImpl personsService;
+  private PersonsServiceImpl personsService;
 
-  @Mock CrudRepository<Person, Long> repository;
-  @Mock PersonFileLoader personFileLoader;
-  @Mock PersonParser personParser;
+  @Mock private CrudRepository<Person, Long> repository;
+
+  @Mock private PersonFileLoader personFileLoader;
+
+  @Mock private PersonParser personParser;
 
   @BeforeEach
   void setUpService() {
@@ -32,7 +34,7 @@ public class PersonsServiceImplTest {
   }
 
   @Test
-  void getAllPersonsReturnsAllPersonsInRepository() {
+  void findAllReturnsAllPersonsInRepository() {
     Integer expectedNumberOfPersons = 5;
     given(repository.findAll()).willReturn(DummyPersonBuilder.buildPerson(expectedNumberOfPersons));
 
@@ -42,7 +44,7 @@ public class PersonsServiceImplTest {
   }
 
   @Test
-  void getPersonReturnsTheCorrectPerson() {
+  void findByIdReturnsTheCorrectPerson() {
     Person expectedPerson = DummyPersonBuilder.buildPerson();
     Optional<Person> emptyOptionalPerson = Optional.of(expectedPerson);
     given(repository.findById(expectedPerson.getId())).willReturn(emptyOptionalPerson);
@@ -53,7 +55,8 @@ public class PersonsServiceImplTest {
   }
 
   @Test
-  void getMatchingPersonsReturnsEmptyListIfNoOneMatches() {
+  void findByColorReturnsEmptyListIfNoOneMatches() {
+    int expectedMatches = 0;
     List<Person> nonMatchingPersons =
         Arrays.asList(
             DummyPersonBuilder.buildPerson(Color.BLUE),
@@ -63,11 +66,12 @@ public class PersonsServiceImplTest {
 
     List<Person> matchingPersons = personsService.findByColor(Color.TURQUOISE);
 
-    assertEquals(0, matchingPersons.size());
+    assertEquals(expectedMatches, matchingPersons.size());
   }
 
   @Test
-  void getMatchingPersonsReturnsAllMatchingPersons() {
+  void findByColorReturnsAllMatchingPersons() {
+    int expectedMatches = 2;
     List<Person> nonMatchingPersons =
         Arrays.asList(
             DummyPersonBuilder.buildPerson(Color.BLUE),
@@ -77,6 +81,6 @@ public class PersonsServiceImplTest {
 
     List<Person> matchingPersons = personsService.findByColor(Color.BLUE);
 
-    assertEquals(2, matchingPersons.size());
+    assertEquals(expectedMatches, matchingPersons.size());
   }
 }

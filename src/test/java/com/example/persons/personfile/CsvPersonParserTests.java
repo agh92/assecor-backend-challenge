@@ -1,36 +1,35 @@
 package com.example.persons.personfile;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.example.persons.model.Color;
 import com.example.persons.model.Person;
-import com.example.persons.personfile.CsvPersonParser;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class CsvPersonParserTests {
-  CsvPersonParser parser;
 
-  @BeforeEach
-  void beforeEach() {
-    parser = new CsvPersonParser();
-  }
+  private CsvPersonParser parser;
 
   private static Stream<Arguments> parseReturnsCorrectNumberOfPersonsArguments() {
     return Stream.of(
         Arguments.of("Müller, Hans, 67742 Lauterecken, 1\nPetersen, Peter, 18439 Stralsund, 2", 2),
         Arguments.of("12313 Wasweißich, 1 \nGerber, Gerda, 76535 Woanders, 3", 1),
         Arguments.of("Gerber, Gerda, 76535 Woanders, 8 \nKlaussen, Klaus, 43246 Hierach, 2", 1));
+  }
+
+  @BeforeEach
+  void beforeEach() {
+    parser = new CsvPersonParser();
   }
 
   @ParameterizedTest
@@ -45,10 +44,9 @@ public class CsvPersonParserTests {
   }
 
   @Test
-  void parseReturnsCorrectPersonWithCorrectLastname() throws IOException {
+  void parseReturnsPersonWithCorrectLastname() throws IOException {
     String expectedLastName = "Müller";
-    String csvString =
-        expectedLastName + ", Hans, 67742 Lauterecken, 1\nPetersen, Peter, 18439 Stralsund, 2";
+    String csvString = expectedLastName + ", Hans, 67742 Lauterecken, 1";
     InputStream stream = new ByteArrayInputStream(csvString.getBytes(StandardCharsets.UTF_8));
 
     Person person = parser.parse(stream).stream().findFirst().get();
@@ -57,10 +55,9 @@ public class CsvPersonParserTests {
   }
 
   @Test
-  void parseReturnsCorrectPersonWithCorrectName() throws IOException {
+  void parseReturnsPersonWithCorrectName() throws IOException {
     String expectedName = "Hans";
-    String csvString =
-        "Müller, " + expectedName + ", 67742 Lauterecken, 1\nPetersen, Peter, 18439 Stralsund, 2";
+    String csvString = "Müller, " + expectedName + ", 67742 Lauterecken, 1";
     InputStream stream = new ByteArrayInputStream(csvString.getBytes(StandardCharsets.UTF_8));
 
     Person person = parser.parse(stream).stream().findFirst().get();
@@ -69,10 +66,9 @@ public class CsvPersonParserTests {
   }
 
   @Test
-  void parseReturnsCorrectPersonWithCorrectAddress() throws IOException {
+  void parseReturnsPersonWithCorrectAddress() throws IOException {
     String expectedAddress = "67742 Lauterecken";
-    String csvString =
-        "Müller, Hans, " + expectedAddress + ", 1\nPetersen, Peter, 18439 Stralsund, 2";
+    String csvString = "Müller, Hans, " + expectedAddress + ", 1";
     InputStream stream = new ByteArrayInputStream(csvString.getBytes(StandardCharsets.UTF_8));
 
     Person person = parser.parse(stream).stream().findFirst().get();
@@ -81,11 +77,10 @@ public class CsvPersonParserTests {
   }
 
   @Test
-  void parseReturnsCorrectPersonWithCorrectColor() throws IOException {
-    Color expectedColor = Color.BLUE;
-    String csvString =
-        "Müller, Hans, 67742 Lauterecken, 1\nPetersen, Peter, 18439 Stralsund, "
-            + expectedColor.ordinal();
+  void parseReturnsPersonWithCorrectColor() throws IOException {
+    Color expectedColor = Color.VIOLET;
+    int colorId = expectedColor.ordinal() + 1;
+    String csvString = "Müller, Hans, 67742 Lauterecken, " + colorId;
     InputStream stream = new ByteArrayInputStream(csvString.getBytes(StandardCharsets.UTF_8));
 
     Person person = parser.parse(stream).stream().findFirst().get();

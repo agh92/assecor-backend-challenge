@@ -39,13 +39,13 @@ public class PersonsControllerTest {
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
-  @Autowired PersonsService personsService;
+  private MockMvc mockMvc;
 
-  @Autowired ModelMapper modelMapper;
+  @Autowired private PersonsService personsService;
 
-  @Autowired PersonsController personsController;
+  @Autowired private ModelMapper modelMapper;
 
-  MockMvc mockMvc;
+  @Autowired private PersonsController personsController;
 
   @BeforeEach
   public void setUp() {
@@ -59,17 +59,20 @@ public class PersonsControllerTest {
 
   @Test
   void getAllPersonsReturnsAllPersons() throws Exception {
+    // given
     Integer expectedNumberOfPersons = 5;
     given(personsService.findAll())
         .willReturn(DummyPersonBuilder.buildPerson(expectedNumberOfPersons));
 
+    // when
     MvcResult result =
         mockMvc.perform(get("/persons").accept(MediaType.APPLICATION_JSON)).andReturn();
 
     String contentAsString = result.getResponse().getContentAsString();
     List<PersonDto> personDtos = MAPPER.readValue(contentAsString, new TypeReference<>() {});
 
-    assertEquals(personDtos.size(), expectedNumberOfPersons);
+    // then
+    assertEquals(expectedNumberOfPersons, personDtos.size());
   }
 
   @Test
@@ -84,10 +87,12 @@ public class PersonsControllerTest {
 
   @Test
   void getPersonReturnsTheCorrectPerson() throws Exception {
+    // given
     Person person = DummyPersonBuilder.buildPerson();
     Long expectedId = person.getId();
-    given(personsService.findById(anyLong())).willReturn(Optional.of(person));
+    given(personsService.findById(expectedId)).willReturn(Optional.of(person));
 
+    // when
     MvcResult result =
         mockMvc
             .perform(get("/persons/" + expectedId).accept(MediaType.APPLICATION_JSON))
@@ -96,7 +101,8 @@ public class PersonsControllerTest {
     String contentAsString = result.getResponse().getContentAsString();
     PersonDto personDto = MAPPER.readValue(contentAsString, PersonDto.class);
 
-    assertEquals(personDto.getId(), expectedId);
+    // then
+    assertEquals(expectedId, personDto.getId());
   }
 
   @Test
@@ -117,21 +123,23 @@ public class PersonsControllerTest {
 
   @Test
   void getPersonsByColorResponseIsOk() throws Exception {
-    given(personsService.findByColor(any())).willReturn(DummyPersonBuilder.buildPerson(2));
-
     Color color = Color.GREEN;
+    given(personsService.findByColor(color)).willReturn(DummyPersonBuilder.buildPerson(2));
+
     mockMvc
         .perform(get("/persons/color/" + color).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk());
   }
 
   @Test
-  void getMatchingPersonsReturnsCorrectNumberOfPersons() throws Exception {
+  void getPersonsByColorReturnsCorrectNumberOfPersons() throws Exception {
+    // given
     Integer expectedNumberOfPersons = 5;
-    given(personsService.findByColor(any()))
+    Color color = Color.GREEN;
+    given(personsService.findByColor(color))
         .willReturn(DummyPersonBuilder.buildPerson(expectedNumberOfPersons));
 
-    Color color = Color.GREEN;
+    // when
     MvcResult result =
         mockMvc
             .perform(get("/persons/color/" + color).accept(MediaType.APPLICATION_JSON))
@@ -140,25 +148,26 @@ public class PersonsControllerTest {
     String contentAsString = result.getResponse().getContentAsString();
     List<PersonDto> personDtos = MAPPER.readValue(contentAsString, new TypeReference<>() {});
 
-    assertEquals(personDtos.size(), expectedNumberOfPersons);
+    // then
+    assertEquals(expectedNumberOfPersons, personDtos.size());
   }
 
   @Test
-  void getMatchingPersonsReturnsBadRequestForInvalidColor() throws Exception {
+  void getPersonsByColorReturnsBadRequestForInvalidColor() throws Exception {
     mockMvc
         .perform(get("/persons/color/foo").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest());
   }
 
   @Test
-  void getMatchingPersonsReturnsBadRequestForWrongParamType() throws Exception {
+  void getPersonsByColorReturnsBadRequestForWrongParamType() throws Exception {
     mockMvc
         .perform(get("/persons/color/999").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest());
   }
 
   @Test
-  void createPersonRespondsCreatedStatus() throws Exception {
+  void createPersonRespondsCreated() throws Exception {
     PersonDto personDto = DummyPersonBuilder.buildPersonDtoWithoutId();
     String jsonPerson = MAPPER.writeValueAsString(personDto);
 
@@ -168,7 +177,7 @@ public class PersonsControllerTest {
   }
 
   @Test
-  void createPersonRespondsBadRequestStatusIfIdIsPresent() throws Exception {
+  void createPersonRespondsBadRequestIfIdIsPresent() throws Exception {
     PersonDto personDto = DummyPersonBuilder.buildPersonDto();
     String jsonPerson = MAPPER.writeValueAsString(personDto);
 

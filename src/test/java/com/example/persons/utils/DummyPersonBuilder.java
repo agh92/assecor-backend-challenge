@@ -3,9 +3,9 @@ package com.example.persons.utils;
 import com.example.persons.dto.PersonDto;
 import com.example.persons.model.Color;
 import com.example.persons.model.Person;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class DummyPersonBuilder {
   private DummyPersonBuilder() {}
@@ -23,11 +23,7 @@ public class DummyPersonBuilder {
   }
 
   public static List<Person> buildPerson(Integer number) {
-    List<Person> persons = new ArrayList<>(number);
-    for (int i = 0; i < number; i++) {
-      persons.add(buildPerson());
-    }
-    return persons;
+    return IntStream.range(0, number).mapToObj(i -> buildPerson()).collect(Collectors.toList());
   }
 
   public static PersonDto buildPersonDto() {
@@ -38,7 +34,7 @@ public class DummyPersonBuilder {
     return getJohnDoeDtoBuilder().build();
   }
 
-  public static PersonDto.PersonDtoBuilder getJohnDoeDtoBuilder() {
+  private static PersonDto.PersonDtoBuilder getJohnDoeDtoBuilder() {
     return PersonDto.builder()
         .name("john")
         .lastName("doe")
