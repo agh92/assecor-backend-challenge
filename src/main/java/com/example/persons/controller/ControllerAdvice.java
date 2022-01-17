@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,7 +20,6 @@ public class ControllerAdvice {
     private static final String DESCRIPTION_SEPARATOR = "=";
 
     @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})
-    @ResponseBody
     public ResponseEntity<ErrorDto> handleException(BindException bindException, WebRequest request) {
         ErrorDto.ErrorDtoBuilder errorDtoBuilder = getBaseErrorBuilder(request)
                 .status(HttpStatus.BAD_REQUEST.value())
@@ -32,7 +30,6 @@ public class ControllerAdvice {
     }
 
     @ExceptionHandler({ResponseStatusException.class})
-    @ResponseBody
     public ResponseEntity<ErrorDto> handleException(ResponseStatusException responseStatusException, WebRequest request) {
         ErrorDto.ErrorDtoBuilder errorDtoBuilder = getBaseErrorBuilder(request)
                 .status(responseStatusException.getStatus().value())
@@ -43,7 +40,6 @@ public class ControllerAdvice {
     }
 
     @ExceptionHandler({InvalidFormatException.class})
-    @ResponseBody
     public ResponseEntity<ErrorDto> handleException(InvalidFormatException invalidFormatException, WebRequest request) {
         String reason = String.format("%s is not compatible with %s", invalidFormatException.getValue(), invalidFormatException.getTargetType());
 
