@@ -24,6 +24,6 @@ public class PersonDto {
     @NotBlank
     @Pattern(regexp = "[\\D][ \\-\\D]*")
     private String city;
-    @IsColor(message = "invalid color")
+    @IsColor
     private String color;
 }
