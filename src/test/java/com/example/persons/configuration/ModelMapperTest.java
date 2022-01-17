@@ -1,4 +1,4 @@
-package com.example.persons;
+package com.example.persons.configuration;
 
 
 import com.example.persons.configuration.BeansConfiguration;

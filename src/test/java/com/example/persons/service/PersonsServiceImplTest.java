@@ -1,4 +1,4 @@
-package com.example.persons;
+package com.example.persons.service;
 
 import com.example.persons.model.Color;
 import com.example.persons.model.Person;
