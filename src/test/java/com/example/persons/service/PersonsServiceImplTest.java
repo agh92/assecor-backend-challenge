@@ -1,23 +1,22 @@
 package com.example.persons.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.given;
+
 import com.example.persons.model.Color;
 import com.example.persons.model.Person;
 import com.example.persons.personfile.PersonFileLoader;
 import com.example.persons.personfile.PersonParser;
 import com.example.persons.utils.DummyPersonBuilder;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.repository.CrudRepository;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 public class PersonsServiceImplTest {
