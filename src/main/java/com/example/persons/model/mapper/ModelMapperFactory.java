@@ -3,6 +3,7 @@ package com.example.persons.model.mapper;
 import com.example.persons.dto.PersonDto;
 import com.example.persons.model.Color;
 import com.example.persons.model.Person;
+import java.util.function.Function;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 
@@ -10,6 +11,8 @@ public class ModelMapperFactory {
 
   public ModelMapper createModelMapper() {
     ModelMapper modelMapper = new ModelMapper();
+
+    Function<String, String[]> splitAddress = address -> address.trim().split("\\s", 2);
 
     Converter<String, String> zipCodeAndCityToAddressConverter =
         context -> {
@@ -20,8 +23,7 @@ public class ModelMapperFactory {
     Converter<String, Integer> addressToZipCodeConverter =
         context -> {
           Person person = (Person) context.getParent().getSource();
-          String address = person.getAddress().trim();
-          String[] addressParts = address.split("\\s", 2);
+          String[] addressParts = splitAddress.apply(person.getAddress());
           String zipCode = addressParts[0];
           return Integer.parseInt(zipCode);
         };
@@ -29,8 +31,7 @@ public class ModelMapperFactory {
     Converter<String, String> addressToCityConverter =
         context -> {
           Person person = (Person) context.getParent().getSource();
-          String address = person.getAddress().trim();
-          String[] addressParts = address.split("\\s", 2);
+          String[] addressParts = splitAddress.apply(person.getAddress());
           String city = addressParts[1];
           return city.trim();
         };
