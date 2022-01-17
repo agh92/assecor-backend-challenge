@@ -21,65 +21,63 @@ import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 public class PersonsServiceImplTest {
-    PersonsServiceImpl personsService;
+  PersonsServiceImpl personsService;
 
-    @Mock
-    CrudRepository<Person, Long> repository;
-    @Mock
-    PersonFileLoader personFileLoader;
-    @Mock
-    PersonParser personParser;
+  @Mock CrudRepository<Person, Long> repository;
+  @Mock PersonFileLoader personFileLoader;
+  @Mock PersonParser personParser;
 
+  @BeforeEach
+  void setUpService() {
+    personsService = new PersonsServiceImpl(repository, personFileLoader, personParser);
+  }
 
-    @BeforeEach
-    void setUpService() {
-        personsService = new PersonsServiceImpl(repository, personFileLoader, personParser);
-    }
+  @Test
+  void getAllPersonsReturnsAllPersonsInRepository() {
+    Integer expectedNumberOfPersons = 5;
+    given(repository.findAll()).willReturn(DummyPersonBuilder.buildPerson(expectedNumberOfPersons));
 
-    @Test
-    void getAllPersonsReturnsAllPersonsInRepository() {
-        Integer expectedNumberOfPersons = 5;
-        given(repository.findAll()).willReturn(DummyPersonBuilder.buildPerson(expectedNumberOfPersons));
+    List<Person> personList = personsService.findAll();
 
-        List<Person> personList = personsService.findAll();
+    assertEquals(expectedNumberOfPersons, personList.size());
+  }
 
-        assertEquals(expectedNumberOfPersons, personList.size());
-    }
+  @Test
+  void getPersonReturnsTheCorrectPerson() {
+    Person expectedPerson = DummyPersonBuilder.buildPerson();
+    Optional<Person> emptyOptionalPerson = Optional.of(expectedPerson);
+    given(repository.findById(expectedPerson.getId())).willReturn(emptyOptionalPerson);
 
-    @Test
-    void getPersonReturnsTheCorrectPerson() {
-        Person expectedPerson = DummyPersonBuilder.buildPerson();
-        Optional<Person> emptyOptionalPerson = Optional.of(expectedPerson);
-        given(repository.findById(expectedPerson.getId())).willReturn(emptyOptionalPerson);
+    Person actualPerson = personsService.findById(expectedPerson.getId()).get();
 
-        Person actualPerson = personsService.findById(expectedPerson.getId()).get();
+    assertEquals(expectedPerson.getId(), actualPerson.getId());
+  }
 
-        assertEquals(expectedPerson.getId(), actualPerson.getId());
-    }
+  @Test
+  void getMatchingPersonsReturnsEmptyListIfNoOneMatches() {
+    List<Person> nonMatchingPersons =
+        Arrays.asList(
+            DummyPersonBuilder.buildPerson(Color.BLUE),
+            DummyPersonBuilder.buildPerson(Color.GREEN),
+            DummyPersonBuilder.buildPerson(Color.RED));
+    given(repository.findAll()).willReturn(nonMatchingPersons);
 
-    @Test
-    void getMatchingPersonsReturnsEmptyListIfNoOneMatches() {
-        List<Person> nonMatchingPersons = Arrays.asList(
-                DummyPersonBuilder.buildPerson(Color.BLUE),
-                DummyPersonBuilder.buildPerson(Color.GREEN),
-                DummyPersonBuilder.buildPerson(Color.RED));
-        given(repository.findAll()).willReturn(nonMatchingPersons);
+    List<Person> matchingPersons = personsService.findByColor(Color.TURQUOISE);
 
-        List<Person> matchingPersons = personsService.findByColor(Color.TURQUOISE);
+    assertEquals(0, matchingPersons.size());
+  }
 
-        assertEquals(0, matchingPersons.size());
-    }
+  @Test
+  void getMatchingPersonsReturnsAllMatchingPersons() {
+    List<Person> nonMatchingPersons =
+        Arrays.asList(
+            DummyPersonBuilder.buildPerson(Color.BLUE),
+            DummyPersonBuilder.buildPerson(Color.BLUE),
+            DummyPersonBuilder.buildPerson(Color.RED));
+    given(repository.findAll()).willReturn(nonMatchingPersons);
 
-    @Test
-    void getMatchingPersonsReturnsAllMatchingPersons() {
-        List<Person> nonMatchingPersons = Arrays.asList(
-                DummyPersonBuilder.buildPerson(Color.BLUE),
-                DummyPersonBuilder.buildPerson(Color.BLUE),
-                DummyPersonBuilder.buildPerson(Color.RED));
-        given(repository.findAll()).willReturn(nonMatchingPersons);
+    List<Person> matchingPersons = personsService.findByColor(Color.BLUE);
 
-        List<Person> matchingPersons = personsService.findByColor(Color.BLUE);
-
-        assertEquals(2, matchingPersons.size());
-    }
+    assertEquals(2, matchingPersons.size());
+  }
 }

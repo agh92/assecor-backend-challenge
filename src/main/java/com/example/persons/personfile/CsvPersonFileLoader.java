@@ -11,17 +11,17 @@ import java.io.InputStream;
 @Component
 public class CsvPersonFileLoader implements PersonFileLoader {
 
-    private final ResourceLoader resourceLoader;
-    private final String filePath;
+  private final ResourceLoader resourceLoader;
+  private final String filePath;
 
-    public CsvPersonFileLoader(PropertiesConfiguration configuration, ResourceLoader resourceLoader) {
-        this.filePath = configuration.getCsvLocation();
-        this.resourceLoader = resourceLoader;
-    }
+  public CsvPersonFileLoader(PropertiesConfiguration configuration, ResourceLoader resourceLoader) {
+    this.filePath = configuration.getCsvLocation();
+    this.resourceLoader = resourceLoader;
+  }
 
-    @Override
-    public InputStream loadFile() throws IOException {
-        Resource csvFileResource = resourceLoader.getResource(filePath);
-        return csvFileResource.getInputStream();
-    }
+  @Override
+  public InputStream loadFile() throws IOException {
+    Resource csvFileResource = resourceLoader.getResource(filePath);
+    return csvFileResource.getInputStream();
+  }
 }

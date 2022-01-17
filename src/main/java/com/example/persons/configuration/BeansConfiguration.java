@@ -11,18 +11,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class BeansConfiguration {
 
-    @Bean
-    public ObjectMapper objectMapper() {
-        return JsonMapper
-                .builder()
-                .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
-                .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
-                .build();
-    }
+  @Bean
+  public ObjectMapper objectMapper() {
+    return JsonMapper.builder()
+        .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
+        .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+        .build();
+  }
 
-    @Bean
-    public ModelMapper modelMapper() {
-        ModelMapperFactory modelMapperFactory = new ModelMapperFactory();
-        return modelMapperFactory.createModelMapper();
-    }
+  @Bean
+  public ModelMapper modelMapper() {
+    ModelMapperFactory modelMapperFactory = new ModelMapperFactory();
+    return modelMapperFactory.createModelMapper();
+  }
 }

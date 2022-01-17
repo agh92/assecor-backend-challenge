@@ -8,31 +8,29 @@ import java.util.Arrays;
 
 public class ColorStringValidator implements ConstraintValidator<IsColor, String> {
 
-    @Override
-    public boolean isValid(final String value, final ConstraintValidatorContext context) {
-      boolean isValid = isValid(value);
+  @Override
+  public boolean isValid(final String value, final ConstraintValidatorContext context) {
+    boolean isValid = isValid(value);
 
-        if (!isValid) {
-          context.disableDefaultConstraintViolation();
-          context
-              .buildConstraintViolationWithTemplate(String.format("%s is not a valid color", value))
-              .addConstraintViolation();
-        }
-
-        return isValid;
+    if (!isValid) {
+      context.disableDefaultConstraintViolation();
+      context
+          .buildConstraintViolationWithTemplate(String.format("%s is not a valid color", value))
+          .addConstraintViolation();
     }
 
-    private boolean isValid(String value) {
-        if (value == null) {
-          return false;
-        }
+    return isValid;
+  }
 
-        String upperCaseString = value.toUpperCase();
-        Object[] enumValues = Color.class.getEnumConstants();
-
-        return Arrays
-                .stream(enumValues)
-                .anyMatch(enumValue -> enumValue.toString().equals(upperCaseString));
+  private boolean isValid(String value) {
+    if (value == null) {
+      return false;
     }
 
+    String upperCaseString = value.toUpperCase();
+    Object[] enumValues = Color.class.getEnumConstants();
+
+    return Arrays.stream(enumValues)
+        .anyMatch(enumValue -> enumValue.toString().equals(upperCaseString));
+  }
 }

@@ -6,9 +6,9 @@ import lombok.Getter;
 @Builder
 @Getter
 public class ErrorDto {
-    private Long timestamp;
-    private Integer status;
-    private String error;
-    private String reason;
-    private String path;
+  private Long timestamp;
+  private Integer status;
+  private String error;
+  private String reason;
+  private String path;
 }

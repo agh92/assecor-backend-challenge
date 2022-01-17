@@ -8,8 +8,9 @@ import java.util.List;
 
 /**
  * Parses the data inside the loaded file
+ *
  * @see {@link PersonFileLoader}
  */
 public interface PersonParser {
-    List<Person> parse(InputStream inputStream) throws IOException;
+  List<Person> parse(InputStream inputStream) throws IOException;
 }

@@ -6,7 +6,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class PropertiesConfiguration {
-    @Getter
-    @Value("${file_path}")
-    private String csvLocation;
+
+  @Getter
+  @Value("${file_path}")
+  private String csvLocation;
 }

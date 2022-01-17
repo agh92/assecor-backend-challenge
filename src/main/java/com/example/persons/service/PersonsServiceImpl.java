@@ -19,43 +19,41 @@ import java.util.stream.StreamSupport;
 @Service
 public class PersonsServiceImpl implements PersonsService, InitializingBean {
 
-    private final CrudRepository<Person, Long> personRepository;
-    private final PersonFileLoader personFileLoader;
-    private final PersonParser personParser;
+  private final CrudRepository<Person, Long> personRepository;
 
-    @Override
-    public void afterPropertiesSet() {
-        try {
-            InputStream inputStream = personFileLoader.loadFile();
-            List<Person> persons = personParser.parse(inputStream);
-            personRepository.saveAll(persons);
-        } catch (Exception ignored) {
-            // ignore exception because we can still work with the repository
-        }
+  private final PersonFileLoader personFileLoader;
+  private final PersonParser personParser;
+
+  @Override
+  public void afterPropertiesSet() {
+    try {
+      InputStream inputStream = personFileLoader.loadFile();
+      List<Person> persons = personParser.parse(inputStream);
+      personRepository.saveAll(persons);
+    } catch (Exception ignored) {
+      // ignore exception because we can still work with the repository
     }
+  }
 
-    public List<Person> findAll() {
-        Iterable<Person> persons = personRepository.findAll();
+  public List<Person> findAll() {
+    Iterable<Person> persons = personRepository.findAll();
 
-        return StreamSupport
-                .stream(persons.spliterator(), false)
-                .collect(Collectors.toList());
-    }
+    return StreamSupport.stream(persons.spliterator(), false).collect(Collectors.toList());
+  }
 
-    public Optional<Person> findById(Long id) {
-        return personRepository.findById(id);
-    }
+  public Optional<Person> findById(Long id) {
+    return personRepository.findById(id);
+  }
 
-    public List<Person> findByColor(Color color) {
-        Iterable<Person> persons = personRepository.findAll();
+  public List<Person> findByColor(Color color) {
+    Iterable<Person> persons = personRepository.findAll();
 
-        return StreamSupport
-                .stream(persons.spliterator(), false)
-                .filter(person -> person.getColor() == color)
-                .collect(Collectors.toList());
-    }
+    return StreamSupport.stream(persons.spliterator(), false)
+        .filter(person -> person.getColor() == color)
+        .collect(Collectors.toList());
+  }
 
-    public void createPerson(Person person) {
-        this.personRepository.save(person);
-    }
+  public void createPerson(Person person) {
+    this.personRepository.save(person);
+  }
 }
