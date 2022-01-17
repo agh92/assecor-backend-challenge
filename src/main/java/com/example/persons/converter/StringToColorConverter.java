@@ -8,11 +8,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 public class StringToColorConverter implements Converter<String, Color> {
     @Override
-    public Color convert(String source) {
+    public Color convert(String coloString) {
         try {
-            return Color.valueOf(source.toUpperCase());
+            return Color.valueOf(coloString.toUpperCase());
         } catch (Exception exception) {
-            String reason = String.format("%s is not a valid color", source);
+            String reason = String.format("%s is not a valid color", coloString);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, reason);
         }
     }
