@@ -35,5 +35,9 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    afterTest { desc, result ->
+        def output = "Class name: ${desc.className}, Test name: ${desc.name},  (Test status: ${result.resultType})"
+        println('\n' + output)
+    }
 }
 targetCompatibility = JavaVersion.VERSION_16
