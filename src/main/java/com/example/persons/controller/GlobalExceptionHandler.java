@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Date;
 
 @RestControllerAdvice
-public class ControllerAdvice {
+public class GlobalExceptionHandler {
 
     private static final String FIELD_MESSAGE_SEPARATOR = ": ";
     private static final String DESCRIPTION_SEPARATOR = "=";
@@ -53,11 +53,17 @@ public class ControllerAdvice {
 
     private String buildReason(BindException bindException) {
         StringBuilder stringBuilder = new StringBuilder();
-
         bindException.getFieldErrors()
-                .forEach(err -> stringBuilder.append(err.getField()).append(FIELD_MESSAGE_SEPARATOR).append(err.getDefaultMessage()));
+                .forEach(err -> stringBuilder
+                        .append(err.getField())
+                        .append(FIELD_MESSAGE_SEPARATOR)
+                        .append(err.getDefaultMessage()));
+
         bindException.getGlobalErrors()
-                .forEach(err -> stringBuilder.append(err.getObjectName()).append(FIELD_MESSAGE_SEPARATOR).append(err.getDefaultMessage()));
+                .forEach(err -> stringBuilder
+                        .append(err.getObjectName())
+                        .append(FIELD_MESSAGE_SEPARATOR)
+                        .append(err.getDefaultMessage()));
 
         return stringBuilder.toString();
     }
