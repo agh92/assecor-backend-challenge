@@ -30,7 +30,7 @@ public class PersonsServiceImpl implements PersonsService, InitializingBean {
             List<Person> persons = personParser.parse(inputStream);
             personRepository.saveAll(persons);
         } catch (Exception ignored) {
-            // ignore exception because we can still add persons
+            // ignore exception because we can still work with the repository
         }
     }
 
