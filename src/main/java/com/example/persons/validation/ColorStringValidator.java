@@ -11,8 +11,7 @@ public class ColorStringValidator implements ConstraintValidator<IsColor, String
     @Override
     public boolean isValid(final String value, final ConstraintValidatorContext context) {
         if (value != null) {
-            String upperCaseString = value.toUpperCase();
-            return validate(upperCaseString);
+            return validate(value);
         }
         return false;
     }
