@@ -5,8 +5,6 @@ import static org.mockito.BDDMockito.given;
 
 import com.example.persons.model.Color;
 import com.example.persons.model.Person;
-import com.example.persons.personfile.PersonFileLoader;
-import com.example.persons.personfile.PersonParser;
 import com.example.persons.utils.DummyPersonBuilder;
 import java.util.Arrays;
 import java.util.List;
@@ -24,13 +22,9 @@ public class PersonsServiceImplTest {
 
   @Mock private CrudRepository<Person, Long> repository;
 
-  @Mock private PersonFileLoader personFileLoader;
-
-  @Mock private PersonParser personParser;
-
   @BeforeEach
   void setUpService() {
-    personsService = new PersonsServiceImpl(repository, personFileLoader, personParser);
+    personsService = new PersonsServiceImpl(repository);
   }
 
   @Test

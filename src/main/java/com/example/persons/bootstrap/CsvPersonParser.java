@@ -1,12 +1,7 @@
-package com.example.persons.personfile;
+package com.example.persons.bootstrap;
 
 import com.example.persons.model.Color;
 import com.example.persons.model.Person;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
-import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,6 +10,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+import org.springframework.stereotype.Component;
 
 @Component
 public class CsvPersonParser implements PersonParser {

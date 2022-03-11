@@ -1,12 +1,11 @@
-package com.example.persons.personfile;
+package com.example.persons.bootstrap;
 
 import com.example.persons.configuration.PropertiesConfiguration;
+import java.io.IOException;
+import java.io.InputStream;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 @Component
 public class CsvPersonFileLoader implements PersonFileLoader {

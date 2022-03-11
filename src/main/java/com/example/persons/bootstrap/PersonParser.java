@@ -1,7 +1,6 @@
-package com.example.persons.personfile;
+package com.example.persons.bootstrap;
 
 import com.example.persons.model.Person;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;

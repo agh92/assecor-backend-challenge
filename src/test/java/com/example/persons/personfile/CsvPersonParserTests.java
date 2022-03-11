@@ -2,6 +2,7 @@ package com.example.persons.personfile;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.example.persons.bootstrap.CsvPersonParser;
 import com.example.persons.model.Color;
 import com.example.persons.model.Person;
 import java.io.ByteArrayInputStream;
