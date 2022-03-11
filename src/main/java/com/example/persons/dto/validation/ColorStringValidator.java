@@ -1,10 +1,9 @@
-package com.example.persons.validation;
+package com.example.persons.dto.validation;
 
 import com.example.persons.model.Color;
-
+import java.util.Arrays;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.Arrays;
 
 public class ColorStringValidator implements ConstraintValidator<IsColor, String> {
 
