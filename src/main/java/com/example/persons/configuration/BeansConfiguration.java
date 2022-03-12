@@ -21,7 +21,7 @@ public class BeansConfiguration {
 
   @Bean
   public ModelMapper modelMapper() {
-    ModelMapperFactory modelMapperFactory = new ModelMapperFactory();
+    var modelMapperFactory = new ModelMapperFactory();
     return modelMapperFactory.createModelMapper();
   }
 }

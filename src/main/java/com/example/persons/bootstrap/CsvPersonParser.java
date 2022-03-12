@@ -5,7 +5,6 @@ import com.example.persons.model.Person;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
@@ -19,8 +18,8 @@ import org.springframework.stereotype.Component;
 public class CsvPersonParser implements PersonParser {
 
   public List<Person> parse(InputStream inputStream) throws IOException {
-    Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-    CSVParser csvParser = CSVFormat.DEFAULT.parse(reader);
+    var reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+    var csvParser = CSVFormat.DEFAULT.parse(reader);
     return parse(csvParser);
   }
 
@@ -36,7 +35,7 @@ public class CsvPersonParser implements PersonParser {
 
   private Optional<Person.PersonBuilder> parse(CSVRecord csvRecord) {
     try {
-      Person.PersonBuilder builder = parsePerson(csvRecord);
+      var builder = parsePerson(csvRecord);
       return Optional.of(builder);
     } catch (Exception exception) {
       return Optional.empty();
@@ -44,8 +43,8 @@ public class CsvPersonParser implements PersonParser {
   }
 
   private Person.PersonBuilder parsePerson(CSVRecord record) {
-    int colorId = Integer.parseInt(record.get(3).trim());
-    Color personColor = Color.values()[colorId - 1];
+    var colorId = Integer.parseInt(record.get(3).trim());
+    var personColor = Color.values()[colorId - 1];
 
     return Person.builder()
         .lastName(record.get(0).trim())

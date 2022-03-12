@@ -2,6 +2,7 @@ package com.example.persons.controller;
 
 import com.example.persons.dto.ErrorDto;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import java.util.Date;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Date;
-
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -21,7 +20,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})
   public ResponseEntity<ErrorDto> handleException(BindException bindException, WebRequest request) {
-    ErrorDto.ErrorDtoBuilder errorDtoBuilder =
+    var errorDtoBuilder =
         getBaseErrorBuilder(request)
             .status(HttpStatus.BAD_REQUEST.value())
             .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
@@ -33,7 +32,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler({ResponseStatusException.class})
   public ResponseEntity<ErrorDto> handleException(
       ResponseStatusException responseStatusException, WebRequest request) {
-    ErrorDto.ErrorDtoBuilder errorDtoBuilder =
+    var errorDtoBuilder =
         getBaseErrorBuilder(request)
             .status(responseStatusException.getStatus().value())
             .error(responseStatusException.getStatus().getReasonPhrase())
@@ -45,12 +44,12 @@ public class GlobalExceptionHandler {
   @ExceptionHandler({InvalidFormatException.class})
   public ResponseEntity<ErrorDto> handleException(
       InvalidFormatException invalidFormatException, WebRequest request) {
-    String reason =
+    var reason =
         String.format(
             "%s is not compatible with %s",
             invalidFormatException.getValue(), invalidFormatException.getTargetType());
 
-    ErrorDto.ErrorDtoBuilder errorDtoBuilder =
+    var errorDtoBuilder =
         getBaseErrorBuilder(request)
             .status(HttpStatus.BAD_REQUEST.value())
             .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
@@ -60,7 +59,7 @@ public class GlobalExceptionHandler {
   }
 
   private String buildReason(BindException bindException) {
-    StringBuilder stringBuilder = new StringBuilder();
+    var stringBuilder = new StringBuilder();
     bindException
         .getFieldErrors()
         .forEach(
@@ -83,8 +82,7 @@ public class GlobalExceptionHandler {
   }
 
   private ErrorDto.ErrorDtoBuilder getBaseErrorBuilder(WebRequest request) {
-    String requestPath = request.getDescription(false).split(DESCRIPTION_SEPARATOR)[1];
-
+    var requestPath = request.getDescription(false).split(DESCRIPTION_SEPARATOR)[1];
     return ErrorDto.builder().timestamp(new Date().getTime()).path(requestPath);
   }
 }

@@ -9,7 +9,7 @@ public class ColorStringValidator implements ConstraintValidator<IsColor, String
 
   @Override
   public boolean isValid(final String value, final ConstraintValidatorContext context) {
-    boolean isValid = isValid(value);
+    var isValid = isValid(value);
 
     if (!isValid) {
       context.disableDefaultConstraintViolation();
@@ -26,8 +26,8 @@ public class ColorStringValidator implements ConstraintValidator<IsColor, String
       return false;
     }
 
-    String upperCaseString = value.toUpperCase();
-    Object[] enumValues = Color.class.getEnumConstants();
+    var upperCaseString = value.toUpperCase();
+    var enumValues = Color.class.getEnumConstants();
 
     return Arrays.stream(enumValues)
         .anyMatch(enumValue -> enumValue.toString().equals(upperCaseString));

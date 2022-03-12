@@ -17,8 +17,7 @@ public class PersonsServiceImpl implements PersonsService {
   private final CrudRepository<Person, Long> personRepository;
 
   public List<Person> findAll() {
-    Iterable<Person> persons = personRepository.findAll();
-
+    var persons = personRepository.findAll();
     return StreamSupport.stream(persons.spliterator(), false).collect(Collectors.toList());
   }
 
@@ -27,7 +26,7 @@ public class PersonsServiceImpl implements PersonsService {
   }
 
   public List<Person> findByColor(Color color) {
-    Iterable<Person> persons = personRepository.findAll();
+    var persons = personRepository.findAll();
 
     return StreamSupport.stream(persons.spliterator(), false)
         .filter(person -> person.getColor() == color)

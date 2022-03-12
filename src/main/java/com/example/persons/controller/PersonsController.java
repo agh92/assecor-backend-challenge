@@ -5,7 +5,6 @@ import com.example.persons.model.Color;
 import com.example.persons.model.Person;
 import com.example.persons.service.PersonsService;
 import java.util.List;
-import java.util.Optional;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -30,7 +29,7 @@ public class PersonsController {
 
   @GetMapping
   public List<PersonDto> getAllPersons() {
-    List<Person> allPersons = personsService.findAll();
+    var allPersons = personsService.findAll();
     return allPersons.stream().map(person -> modelMapper.map(person, PersonDto.class)).toList();
   }
 
@@ -40,13 +39,13 @@ public class PersonsController {
     if (personDto.getId() != null) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "id cannot be set by the client");
     }
-    Person person = modelMapper.map(personDto, Person.class);
+    var person = modelMapper.map(personDto, Person.class);
     this.personsService.createPerson(person);
   }
 
   @GetMapping("/{personID}")
   public PersonDto getPerson(@PathVariable Long personID) {
-    Optional<Person> optionalPerson = personsService.findById(personID);
+    var optionalPerson = personsService.findById(personID);
 
     if (optionalPerson.isPresent()) {
       return modelMapper.map(optionalPerson.get(), PersonDto.class);
@@ -58,7 +57,7 @@ public class PersonsController {
 
   @GetMapping("/color/{color}")
   public List<PersonDto> getPersonsByColor(@PathVariable Color color) {
-    List<Person> matchingPersons = personsService.findByColor(color);
+    var matchingPersons = personsService.findByColor(color);
     return matchingPersons.stream()
         .map(person -> modelMapper.map(person, PersonDto.class))
         .toList();

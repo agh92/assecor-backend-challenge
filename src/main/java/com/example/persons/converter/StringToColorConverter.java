@@ -12,7 +12,7 @@ public class StringToColorConverter implements Converter<String, Color> {
     try {
       return Color.valueOf(coloString.toUpperCase());
     } catch (Exception exception) {
-      String reason = String.format("%s is not a valid color", coloString);
+      var reason = String.format("%s is not a valid color", coloString);
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, reason);
     }
   }
