@@ -3,6 +3,7 @@ package com.example.persons.dto;
 import com.example.persons.dto.validation.IsColor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class PersonDto {
-  private Long id;
+  @Null private Long id;
 
   @NotBlank
   @Pattern(regexp = "\\D[ \\-\\D]*")

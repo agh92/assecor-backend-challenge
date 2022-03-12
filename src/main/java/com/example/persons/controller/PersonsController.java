@@ -36,9 +36,6 @@ public class PersonsController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public void createPerson(@RequestBody @Valid PersonDto personDto) {
-    if (personDto.getId() != null) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "id cannot be set by the client");
-    }
     var person = modelMapper.map(personDto, Person.class);
     this.personsService.createPerson(person);
   }
