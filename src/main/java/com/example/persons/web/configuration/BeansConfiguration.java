@@ -1,6 +1,6 @@
-package com.example.persons.configuration;
+package com.example.persons.web.configuration;
 
-import com.example.persons.model.mapper.ModelMapperFactory;
+import com.example.persons.web.mapper.ModelMapperFactory;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;

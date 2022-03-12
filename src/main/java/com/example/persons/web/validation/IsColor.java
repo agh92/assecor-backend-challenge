@@ -1,4 +1,4 @@
-package com.example.persons.dto.validation;
+package com.example.persons.web.validation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

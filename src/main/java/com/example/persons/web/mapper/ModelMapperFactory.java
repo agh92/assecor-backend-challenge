@@ -1,8 +1,8 @@
-package com.example.persons.model.mapper;
+package com.example.persons.web.mapper;
 
-import com.example.persons.dto.PersonDto;
-import com.example.persons.model.Color;
-import com.example.persons.model.Person;
+import com.example.persons.web.model.PersonDto;
+import com.example.persons.domain.Color;
+import com.example.persons.domain.Person;
 import java.util.function.Function;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;

@@ -1,6 +1,6 @@
 package com.example.persons.bootstrap;
 
-import com.example.persons.model.Person;
+import com.example.persons.domain.Person;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.repository.CrudRepository;

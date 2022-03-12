@@ -1,4 +1,4 @@
-package com.example.persons.model;
+package com.example.persons.domain;
 
 public enum Color {
   BLUE,

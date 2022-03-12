@@ -3,8 +3,8 @@ package com.example.persons.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
-import com.example.persons.model.Color;
-import com.example.persons.model.Person;
+import com.example.persons.domain.Color;
+import com.example.persons.domain.Person;
 import com.example.persons.utils.DummyPersonBuilder;
 import java.util.Arrays;
 import java.util.List;

@@ -1,6 +1,6 @@
-package com.example.persons.converter;
+package com.example.persons.web.converter;
 
-import com.example.persons.model.Color;
+import com.example.persons.domain.Color;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;

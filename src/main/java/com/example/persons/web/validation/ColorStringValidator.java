@@ -1,6 +1,6 @@
-package com.example.persons.dto.validation;
+package com.example.persons.web.validation;
 
-import com.example.persons.model.Color;
+import com.example.persons.domain.Color;
 import java.util.Arrays;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

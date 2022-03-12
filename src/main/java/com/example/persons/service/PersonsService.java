@@ -1,7 +1,7 @@
 package com.example.persons.service;
 
-import com.example.persons.model.Color;
-import com.example.persons.model.Person;
+import com.example.persons.domain.Color;
+import com.example.persons.domain.Person;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +9,9 @@ import java.util.Optional;
 /** Abstracts the communication with the repository that provides {@link Person} */
 public interface PersonsService {
 
-  /** @return all persons in the repository - might be empty if there are any */
+  /**
+   * @return all persons in the repository - might be empty if there are any
+   */
   List<Person> findAll();
 
   /**

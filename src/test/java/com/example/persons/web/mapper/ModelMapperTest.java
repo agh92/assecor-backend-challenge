@@ -1,10 +1,11 @@
-package com.example.persons.configuration;
+package com.example.persons.web.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.example.persons.dto.PersonDto;
-import com.example.persons.model.Color;
-import com.example.persons.model.Person;
+import com.example.persons.domain.Color;
+import com.example.persons.domain.Person;
+import com.example.persons.web.configuration.BeansConfiguration;
+import com.example.persons.web.model.PersonDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.Conditions;

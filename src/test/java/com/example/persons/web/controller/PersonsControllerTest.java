@@ -1,4 +1,4 @@
-package com.example.persons.controller;
+package com.example.persons.web.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.any;
@@ -8,11 +8,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.persons.dto.PersonDto;
-import com.example.persons.model.Color;
-import com.example.persons.model.Person;
+import com.example.persons.domain.Color;
+import com.example.persons.domain.Person;
 import com.example.persons.service.PersonsService;
 import com.example.persons.utils.DummyPersonBuilder;
+import com.example.persons.web.model.PersonDto;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;

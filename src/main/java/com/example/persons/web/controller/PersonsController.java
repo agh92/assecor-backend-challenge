@@ -1,8 +1,8 @@
-package com.example.persons.controller;
+package com.example.persons.web.controller;
 
-import com.example.persons.dto.PersonDto;
-import com.example.persons.model.Color;
-import com.example.persons.model.Person;
+import com.example.persons.web.model.PersonDto;
+import com.example.persons.domain.Color;
+import com.example.persons.domain.Person;
 import com.example.persons.service.PersonsService;
 import java.util.List;
 import javax.validation.Valid;

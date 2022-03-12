@@ -1,6 +1,6 @@
-package com.example.persons.controller;
+package com.example.persons.web.controller;
 
-import com.example.persons.dto.ErrorDto;
+import com.example.persons.web.model.ErrorDto;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import java.util.Date;
 import org.springframework.http.HttpStatus;

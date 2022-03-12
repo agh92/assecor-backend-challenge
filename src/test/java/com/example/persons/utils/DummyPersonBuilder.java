@@ -1,8 +1,8 @@
 package com.example.persons.utils;
 
-import com.example.persons.dto.PersonDto;
-import com.example.persons.model.Color;
-import com.example.persons.model.Person;
+import com.example.persons.web.model.PersonDto;
+import com.example.persons.domain.Color;
+import com.example.persons.domain.Person;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;

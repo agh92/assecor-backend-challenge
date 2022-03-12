@@ -1,6 +1,6 @@
 package com.example.persons.bootstrap;
 
-import com.example.persons.model.Person;
+import com.example.persons.domain.Person;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;

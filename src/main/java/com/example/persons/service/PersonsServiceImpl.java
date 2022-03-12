@@ -1,7 +1,7 @@
 package com.example.persons.service;
 
-import com.example.persons.model.Color;
-import com.example.persons.model.Person;
+import com.example.persons.domain.Color;
+import com.example.persons.domain.Person;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

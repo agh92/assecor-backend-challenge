@@ -1,6 +1,6 @@
-package com.example.persons.dto;
+package com.example.persons.web.model;
 
-import com.example.persons.dto.validation.IsColor;
+import com.example.persons.web.validation.IsColor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;

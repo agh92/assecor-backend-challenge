@@ -1,6 +1,6 @@
-package com.example.persons.configuration;
+package com.example.persons.web.configuration;
 
-import com.example.persons.converter.StringToColorConverter;
+import com.example.persons.web.converter.StringToColorConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

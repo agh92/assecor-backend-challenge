@@ -1,4 +1,4 @@
-package com.example.persons.dto;
+package com.example.persons.web.model;
 
 import lombok.Builder;
 import lombok.Getter;
